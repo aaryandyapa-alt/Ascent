@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ascent — Engineering a Healthier Future</title>
+<meta name="description" content="Ascent is a student-founded nonprofit initiative expanding access to biomedical engineering education and healthcare technology. Pre-launch. Starting from zero, counted in public.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ASCENT — light app design system
+   ============================================================ */
+:root{
+  --bg:#FAFBFD;
+  --bg-soft:#F3F6FA;
+  --surface:#FFFFFF;
+  --ink:#0F1B28;
+  --ink-2:#33465A;
+  --muted:#5C6B7C;
+  --faint:#8A97A6;
+  --line:#E5EAF0;
+  --line-strong:#D5DDE6;
+  --navy:#0A2540;
+  --teal:#0E8388;
+  --teal-soft:#E4F4F4;
+  --emerald:#0FA36B;
+  --emerald-deep:#0B7F53;
+  --emerald-soft:#E7F6EF;
+  --amber:#B77816;
+  --amber-soft:#FBF1DF;
+  --slate-soft:#EEF2F6;
+  --r-lg:20px; --r-md:14px; --r-sm:10px;
+  --shadow-sm:0 1px 2px rgba(16,27,40,.05);
+  --shadow-md:0 6px 18px -6px rgba(16,27,40,.10), 0 2px 5px rgba(16,27,40,.05);
+  --shadow-lg:0 20px 45px -18px rgba(10,37,64,.18), 0 4px 12px rgba(16,27,40,.06);
+  --font-d:'Bricolage Grotesque',sans-serif;
+  --font-b:'IBM Plex Sans',system-ui,sans-serif;
+  --font-m:'IBM Plex Mono',monospace;
+  --max:1160px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);background:var(--bg);color:var(--ink);line-height:1.65;font-size:15.5px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:rgba(15,163,107,.18)}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+.mono{font-family:var(--font-m)}
+
+/* ---------- type ---------- */
+h1,h2,h3,h4{font-family:var(--font-d);font-weight:700;line-height:1.14;letter-spacing:-.018em;color:var(--ink)}
+.h-xl{font-size:clamp(2.5rem,5.4vw,3.9rem);font-weight:700;letter-spacing:-.028em}
+.h-lg{font-size:clamp(1.85rem,3.4vw,2.6rem)}
+.h-md{font-size:clamp(1.3rem,2.2vw,1.6rem)}
+.lede{font-size:1.13rem;color:var(--muted);line-height:1.7;max-width:62ch}
+p{color:var(--ink-2)}
+.small{font-size:.85rem;color:var(--muted)}
+.grad-text{background:linear-gradient(100deg,var(--teal),var(--emerald));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---------- eyebrow / badges / pills ---------- */
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--font-m);font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.eyebrow .blip{width:26px;height:12px;flex:none}
+.eyebrow .blip path{stroke:var(--emerald);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:999px;font-size:.76rem;font-weight:600;letter-spacing:.01em;border:1px solid var(--line);background:var(--surface);color:var(--ink-2)}
+.pill .dot{width:7px;height:7px;border-radius:50%;flex:none}
+.pill.live{border-color:#BEE7D4;background:var(--emerald-soft);color:var(--emerald-deep)}
+.pill.live .dot{background:var(--emerald);box-shadow:0 0 0 0 rgba(15,163,107,.5);animation:pulse 2.2s infinite}
+.pill.plan{border-color:#E7D9BB;background:var(--amber-soft);color:var(--amber)}
+.pill.plan .dot{background:var(--amber)}
+.pill.idea{background:var(--slate-soft);color:var(--muted)}
+.pill.idea .dot{background:var(--faint)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(15,163,107,.45)}70%{box-shadow:0 0 0 8px rgba(15,163,107,0)}100%{box-shadow:0 0 0 0 rgba(15,163,107,0)}}
+.tag{display:inline-block;padding:3px 10px;border-radius:7px;background:var(--slate-soft);color:var(--ink-2);font-family:var(--font-m);font-size:.72rem;font-weight:500}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:.95rem;border-radius:12px;padding:13px 24px;transition:transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;white-space:nowrap}
+.btn svg{width:16px;height:16px;transition:transform .18s ease}
+.btn:hover svg{transform:translateX(3px)}
+.btn-primary{background:linear-gradient(135deg,var(--emerald),var(--emerald-deep));color:#fff;box-shadow:0 6px 16px -6px rgba(15,163,107,.45)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 22px -8px rgba(15,163,107,.5)}
+.btn-secondary{background:var(--surface);border:1px solid var(--line-strong);color:var(--ink);box-shadow:var(--shadow-sm)}
+.btn-secondary:hover{border-color:var(--teal);color:var(--teal);transform:translateY(-1px)}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-navy:hover{background:#0D2E4E;transform:translateY(-1px)}
+.btn-sm{padding:9px 16px;font-size:.86rem;border-radius:10px}
+.link-arrow{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:.92rem;color:var(--teal)}
+.link-arrow svg{width:15px;height:15px;transition:transform .18s ease}
+.link-arrow:hover svg{transform:translateX(3px)}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .25s, box-shadow .25s}
+.nav.scrolled{border-bottom-color:var(--line);box-shadow:0 1px 0 rgba(16,27,40,.02), 0 8px 24px -18px rgba(10,37,64,.25)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 28px;height:66px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--font-d);color:var(--ink)}
+.brand-word{font-weight:700;font-size:1.04rem;letter-spacing:.28em;text-indent:.06em;transform:translateY(1px)}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--navy) 0%,#0E3A5C 100%);display:grid;place-items:center;flex:none}
+.brand-mark svg{width:21px;height:21px;overflow:visible}
+.brand-mark path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.brand-mark .peak-front{stroke:#3FE29B;stroke-width:2}
+.brand-mark .peak-back{stroke:#2E7FA8;stroke-width:1.7;opacity:.75}
+.brand-mark .peak-star{fill:#9BE3C4}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{padding:8px 13px;border-radius:9px;font-size:.9rem;font-weight:500;color:var(--ink-2);transition:background .15s,color .15s}
+.nav-links a:hover{background:var(--bg-soft);color:var(--ink)}
+.nav-links a.active{color:var(--teal);background:var(--teal-soft)}
+.nav-cta{display:flex;align-items:center;gap:10px}
+.menu-btn{display:none;width:40px;height:40px;border-radius:10px;place-items:center;color:var(--ink)}
+.menu-btn svg{width:22px;height:22px}
+.menu-btn .i-close{display:none}
+.nav.menu-open .menu-btn .i-bars{display:none}
+.nav.menu-open .menu-btn .i-close{display:block}
+.mobile-menu{position:fixed;inset:0;z-index:99;background:var(--bg);padding:96px 28px 40px;display:none;flex-direction:column;gap:4px;overflow:auto}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:var(--font-d);font-size:1.25rem;font-weight:600;padding:13px 6px;border-bottom:1px solid var(--line);color:var(--ink)}
+.mobile-menu .btn{margin-top:22px;justify-content:center}
+
+/* ---------- announcement bar ---------- */
+.announce{background:var(--navy);color:#BFD3E4;text-align:center;font-size:.8rem;padding:8px 16px}
+.announce b{color:#fff;font-weight:600}
+.announce .mono{color:#3FE29B;font-size:.74rem}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:150px 0 84px;background:
+  radial-gradient(900px 480px at 85% -10%,rgba(14,131,136,.10),transparent 60%),
+  radial-gradient(700px 420px at -10% 20%,rgba(15,163,107,.08),transparent 55%),
+  var(--bg)}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:56px 56px;opacity:.5;mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,black 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,black 30%,transparent 75%);pointer-events:none}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero h1{margin:20px 0 18px}
+.hero .lede{margin-bottom:26px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.hero-note{font-size:.82rem;color:var(--faint);display:flex;align-items:center;gap:7px}
+.hero-note svg{width:14px;height:14px;flex:none;color:var(--emerald)}
+.hero-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
+.hero-brand{display:flex;align-items:center;gap:18px;margin-bottom:26px}
+.hero-brand-mark{width:58px;height:58px;border-radius:15px;background:linear-gradient(135deg,var(--navy) 0%,#0E3A5C 100%);display:grid;place-items:center;flex:none;box-shadow:0 10px 24px -10px rgba(10,37,64,.45)}
+.hero-brand-mark svg{width:36px;height:36px;overflow:visible}
+.hero-brand-mark path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.hero-brand-mark .peak-front{stroke:#3FE29B;stroke-width:2}
+.hero-brand-mark .peak-back{stroke:#2E7FA8;stroke-width:1.7;opacity:.75}
+.hero-brand-mark .peak-star{fill:#9BE3C4}
+.hero-brand-word{font-family:var(--font-d);font-weight:700;font-size:clamp(1.85rem,4.1vw,2.85rem);letter-spacing:.24em;text-indent:.06em;color:var(--ink);line-height:1}
+
+/* ---------- app panel (hero dashboard) ---------- */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-lg);overflow:hidden}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#FDFEFF,#F8FAFC)}
+.panel-title{display:flex;align-items:center;gap:9px;font-family:var(--font-m);font-size:.74rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.panel-title .dot{width:8px;height:8px;border-radius:50%;background:var(--emerald);animation:pulse 2.2s infinite}
+.panel-body{padding:18px}
+.panel-trace{height:64px;border:1px solid var(--line);border-radius:var(--r-sm);background:
+  linear-gradient(var(--slate-soft) 1px,transparent 1px),linear-gradient(90deg,var(--slate-soft) 1px,transparent 1px);
+  background-size:14px 14px;position:relative;overflow:hidden;margin-bottom:16px}
+.panel-trace svg{position:absolute;inset:0;width:100%;height:100%}
+.panel-trace .base{stroke:rgba(14,131,136,.18);stroke-width:1.6;fill:none}
+.panel-trace .sweep{stroke:var(--emerald);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-dasharray:120 880;stroke-dashoffset:1000;animation:sweep 4.5s linear infinite;filter:drop-shadow(0 0 4px rgba(15,163,107,.5))}
+@keyframes sweep{to{stroke-dashoffset:0}}
+.panel-rows{display:flex;flex-direction:column}
+.panel-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 2px;border-bottom:1px dashed var(--line)}
+.panel-row:last-child{border-bottom:none}
+.panel-row .k{font-size:.86rem;color:var(--muted)}
+.panel-row .v{font-family:var(--font-m);font-size:.9rem;font-weight:600;color:var(--ink)}
+.panel-foot{padding:12px 18px;border-top:1px solid var(--line);background:var(--bg-soft);font-size:.76rem;color:var(--faint);display:flex;align-items:center;gap:7px}
+.panel-foot svg{width:13px;height:13px;flex:none;color:var(--teal)}
+
+/* ---------- sections ---------- */
+section{padding:88px 0}
+section.tight{padding:64px 0}
+.sec-alt{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sec-soft{background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.section-head{max-width:720px;margin-bottom:48px}
+.section-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.section-head.center .eyebrow{justify-content:center}
+.section-head h2{margin:16px 0 14px}
+.section-head p{color:var(--muted);font-size:1.05rem}
+
+/* ---------- zero ledger ---------- */
+.ledger{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);box-shadow:var(--shadow-md);overflow:hidden}
+.ledger-head{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:linear-gradient(180deg,#FDFEFF,#F8FAFC)}
+.ledger-grid{display:grid;grid-template-columns:repeat(5,1fr)}
+.ledger-cell{padding:26px 22px;border-right:1px solid var(--line);position:relative}
+.ledger-cell:last-child{border-right:none}
+.ledger-cell .num{font-family:var(--font-d);font-size:2.65rem;font-weight:700;letter-spacing:-.022em;color:var(--ink);line-height:1}
+.ledger-cell .num em{font-style:normal;color:var(--line-strong)}
+.ledger-cell .lbl{margin-top:8px;font-size:.86rem;font-weight:600;color:var(--ink-2)}
+.ledger-cell .sub{margin-top:3px;font-size:.78rem;color:var(--faint);line-height:1.5}
+.ledger-foot{padding:14px 24px;border-top:1px solid var(--line);background:var(--bg-soft);font-size:.8rem;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+.ledger-foot svg{width:15px;height:15px;flex:none;margin-top:2px;color:var(--teal)}
+
+/* ---------- cards ---------- */
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:26px;box-shadow:var(--shadow-sm);transition:box-shadow .2s ease, transform .2s ease, border-color .2s ease;position:relative}
+.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:var(--line-strong)}
+.card h3{font-size:1.08rem;margin:14px 0 8px}
+.card p{font-size:.92rem;color:var(--muted);line-height:1.65}
+.icon-chip{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;background:var(--teal-soft);color:var(--teal)}
+.icon-chip.green{background:var(--emerald-soft);color:var(--emerald-deep)}
+.icon-chip.navy{background:#E7EEF5;color:var(--navy)}
+.icon-chip svg{width:21px;height:21px}
+.card .mini-list{margin-top:14px;display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:1px dashed var(--line)}
+.mini-list li{list-style:none;display:flex;gap:9px;font-size:.86rem;color:var(--ink-2);line-height:1.55}
+.mini-list li svg{width:15px;height:15px;flex:none;margin-top:3px;color:var(--emerald)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+
+/* ---------- detail rows / tables / kv ---------- */
+.detail-list{border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);overflow:hidden;box-shadow:var(--shadow-sm)}
+.detail-row{display:grid;grid-template-columns:200px 1fr;gap:18px;padding:18px 22px;border-bottom:1px solid var(--line)}
+.detail-row:last-child{border-bottom:none}
+.detail-row:nth-child(even){background:#FCFDFE}
+.detail-row .dk{font-weight:600;font-size:.9rem;color:var(--ink);display:flex;align-items:flex-start;gap:8px}
+.detail-row .dv{font-size:.9rem;color:var(--muted);line-height:1.65}
+.dv .tag{margin-right:6px}
+.table{width:100%;border-collapse:collapse;font-size:.9rem}
+.table th{text-align:left;font-family:var(--font-m);font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding:12px 16px;border-bottom:1px solid var(--line);background:var(--bg-soft)}
+.table td{padding:14px 16px;border-bottom:1px solid var(--line);color:var(--ink-2);vertical-align:top}
+.table tr:last-child td{border-bottom:none}
+.table td:first-child{font-weight:600;color:var(--ink)}
+.table-wrap{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--surface);box-shadow:var(--shadow-sm)}
+.table .mono-cell{font-family:var(--font-m);font-size:.82rem;white-space:nowrap}
+
+/* ---------- steps ---------- */
+.steps{display:flex;flex-direction:column;gap:0;border-left:2px solid var(--line);margin-left:9px}
+.step{position:relative;padding:0 0 34px 34px}
+.step:last-child{padding-bottom:4px}
+.step-node{position:absolute;left:-11px;top:2px;width:20px;height:20px;border-radius:50%;background:var(--surface);border:2px solid var(--emerald);display:grid;place-items:center;font-family:var(--font-m);font-size:.62rem;font-weight:600;color:var(--emerald-deep)}
+.step h4{font-size:1rem;margin-bottom:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.step p{font-size:.9rem;color:var(--muted);max-width:60ch}
+.step .sub-points{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.step .sub-points li{list-style:none;display:flex;gap:8px;font-size:.85rem;color:var(--ink-2)}
+.step .sub-points li::before{content:"—";color:var(--teal);flex:none}
+
+/* ---------- timeline ---------- */
+.timeline{position:relative;max-width:780px;margin:0 auto}
+.timeline::before{content:"";position:absolute;left:19px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--emerald),var(--teal),var(--line))}
+.t-item{position:relative;padding:0 0 40px 64px}
+.t-item:last-child{padding-bottom:0}
+.t-node{position:absolute;left:0;top:0;width:40px;height:40px;border-radius:12px;background:var(--surface);border:1px solid var(--line-strong);box-shadow:var(--shadow-sm);display:grid;place-items:center}
+.t-node svg{width:22px;height:12px}
+.t-node path{stroke:var(--emerald);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.t-date{font-family:var(--font-m);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:5px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.t-item h3{font-size:1.12rem;margin-bottom:7px}
+.t-item p{font-size:.92rem;color:var(--muted);max-width:56ch}
+.t-item .sub-points{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.t-item .sub-points li{list-style:none;display:flex;gap:8px;font-size:.85rem;color:var(--ink-2)}
+.t-item .sub-points li::before{content:"—";color:var(--teal);flex:none}
+
+/* ---------- faq ---------- */
+.faq{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.faq details{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow-sm);overflow:hidden}
+.faq summary{list-style:none;cursor:pointer;padding:19px 22px;font-weight:600;font-size:.98rem;display:flex;justify-content:space-between;align-items:center;gap:14px;color:var(--ink)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .chev{width:26px;height:26px;flex:none;border-radius:8px;background:var(--bg-soft);display:grid;place-items:center;transition:transform .22s ease}
+.faq summary .chev svg{width:14px;height:14px;color:var(--muted)}
+.faq details[open] summary .chev{transform:rotate(180deg);background:var(--teal-soft)}
+.faq details[open] summary .chev svg{color:var(--teal)}
+.faq .faq-a{padding:0 22px 20px;font-size:.92rem;color:var(--muted);line-height:1.7}
+.faq .faq-a p+p{margin-top:10px}
+
+/* ---------- split ---------- */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.split .sticky-col{position:sticky;top:100px}
+.split h2{margin:16px 0 14px}
+.split .lede{font-size:1.02rem;margin-bottom:20px}
+
+/* ---------- progress ---------- */
+.meter{height:9px;border-radius:99px;background:var(--slate-soft);overflow:hidden;position:relative}
+.meter-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--emerald));width:0;transition:width 1.1s cubic-bezier(.2,.7,.2,1)}
+.meter-row{display:flex;justify-content:space-between;align-items:baseline;font-size:.82rem;color:var(--muted);margin-bottom:8px}
+.meter-row b{font-family:var(--font-m);color:var(--ink);font-size:.9rem}
+.alloc{display:flex;flex-direction:column;gap:14px}
+.alloc-item .meter{height:7px}
+.alloc-item .meter-fill.a1{background:var(--emerald)}
+.alloc-item .meter-fill.a2{background:var(--teal)}
+.alloc-item .meter-fill.a3{background:#5B8DB8}
+.alloc-item .meter-fill.a4{background:#93A6B8}
+
+/* ---------- values / team ---------- */
+.value-num{font-family:var(--font-m);font-size:.72rem;font-weight:600;color:var(--faint);letter-spacing:.12em}
+.team-card{text-align:left}
+.avatar{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;font-family:var(--font-d);font-weight:700;font-size:1rem;color:#fff;background:linear-gradient(135deg,var(--navy),var(--teal))}
+.team-card h3{margin:14px 0 3px;font-size:1rem}
+.team-card .role{font-family:var(--font-m);font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+
+/* ---------- quote ---------- */
+.bigquote{max-width:820px;margin:0 auto;text-align:center}
+.bigquote blockquote{font-family:var(--font-d);font-size:clamp(1.35rem,2.6vw,1.9rem);font-weight:600;line-height:1.42;letter-spacing:-.015em;color:var(--ink)}
+.bigquote blockquote .grad-text{font-weight:700}
+.bigquote cite{display:block;margin-top:18px;font-style:normal;font-family:var(--font-m);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- donate ---------- */
+.donate-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-lg);padding:30px}
+.freq-toggle{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--slate-soft);border-radius:11px;padding:4px;margin-bottom:18px}
+.freq-toggle button{padding:10px;border-radius:8px;font-weight:600;font-size:.9rem;color:var(--muted);transition:all .18s}
+.freq-toggle button.active{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm)}
+.amounts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.amounts button{padding:14px 8px;border-radius:11px;border:1px solid var(--line);font-family:var(--font-m);font-weight:600;font-size:1rem;color:var(--ink-2);transition:all .15s;background:var(--surface)}
+.amounts button:hover{border-color:var(--teal)}
+.amounts button.active{border-color:var(--emerald);background:var(--emerald-soft);color:var(--emerald-deep);box-shadow:inset 0 0 0 1px var(--emerald)}
+.custom-amt{position:relative;margin-bottom:16px}
+.custom-amt span{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-family:var(--font-m);color:var(--faint);font-weight:600}
+.custom-amt input{width:100%;padding:14px 16px 14px 34px;border-radius:11px;border:1px solid var(--line);font-family:var(--font-m);font-size:1rem;background:var(--surface);color:var(--ink);outline:none;transition:border-color .15s, box-shadow .15s}
+.custom-amt input:focus{border-color:var(--emerald);box-shadow:0 0 0 3px rgba(15,163,107,.14)}
+.impact-line{display:flex;gap:10px;padding:14px 16px;border-radius:11px;background:var(--teal-soft);border:1px solid #CBE8E8;font-size:.88rem;color:#0B5E62;line-height:1.6;margin-bottom:18px}
+.impact-line svg{width:17px;height:17px;flex:none;margin-top:2px;color:var(--teal)}
+.donate-msg{display:none;margin-top:14px;padding:14px 16px;border-radius:11px;background:var(--amber-soft);border:1px solid #E7D9BB;font-size:.86rem;color:var(--amber);line-height:1.6}
+.donate-msg.show{display:block}
+
+/* ---------- growth chart ---------- */
+.growth-chart{position:relative;height:280px}
+.growth-chart svg{width:100%;height:100%;display:block}
+.growth-chart .gc-grid{stroke:var(--line);stroke-width:1}
+.growth-chart .gc-axis{font-family:var(--font-m);font-size:10.5px;fill:var(--faint)}
+.growth-chart .gc-area{fill:url(#gcFill);opacity:.9}
+.growth-chart .gc-line{fill:none;stroke:var(--emerald);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 2px 5px rgba(15,163,107,.35))}
+.growth-chart .gc-dot{fill:#fff;stroke:var(--emerald);stroke-width:2.2}
+.growth-chart .gc-dot.last{fill:var(--emerald)}
+.growth-chart .gc-label{font-family:var(--font-m);font-size:11px;font-weight:600;fill:var(--emerald-deep)}
+.growth-chart .gc-goal{stroke:var(--line-strong);stroke-width:1;stroke-dasharray:4 5}
+.growth-chart .gc-goal-txt{font-family:var(--font-m);font-size:10px;fill:var(--faint)}
+.chart-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:24px;pointer-events:none}
+.chart-empty b{font-family:var(--font-d);font-size:1.02rem;color:var(--ink)}
+.chart-empty span{font-size:.86rem;color:var(--muted);max-width:44ch;line-height:1.6}
+.demo-badge{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:2;padding:5px 14px;border-radius:999px;background:var(--amber-soft);border:1px solid #E7D9BB;color:var(--amber);font-family:var(--font-m);font-size:.68rem;font-weight:600;letter-spacing:.08em}
+@media (max-width:720px){.growth-chart{height:220px}}
+
+/* ---------- forms ---------- */
+.form{display:flex;flex-direction:column;gap:16px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field label{display:block;font-size:.82rem;font-weight:600;color:var(--ink);margin-bottom:7px}
+.field input,.field select,.field textarea{width:100%;padding:12px 14px;border-radius:11px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-family:inherit;font-size:.93rem;outline:none;transition:border-color .15s, box-shadow .15s}
+.field textarea{resize:vertical;min-height:130px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(14,131,136,.12)}
+.form-ok{display:none;padding:16px 18px;border-radius:11px;background:var(--emerald-soft);border:1px solid #BEE7D4;color:var(--emerald-deep);font-size:.92rem;line-height:1.6}
+.form-ok.show{display:block}
+
+/* ---------- CTA band ---------- */
+.cta-band{position:relative;background:var(--navy);border-radius:var(--r-lg);overflow:hidden;padding:64px 56px;color:#fff}
+.cta-band::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 300px at 80% 20%,rgba(15,163,107,.25),transparent 60%)}
+.cta-band h2{color:#fff;position:relative}
+.cta-band p{color:#A7BCCE;position:relative;max-width:52ch;margin:12px 0 26px}
+.cta-band .btn{position:relative}
+.cta-trace{position:absolute;bottom:0;left:0;right:0;height:60px;opacity:.5}
+.cta-trace path{stroke:#3FE29B;stroke-width:1.6;fill:none;stroke-linecap:round}
+
+/* ---------- page hero (interior) ---------- */
+.page-hero{padding:140px 0 56px;background:
+  radial-gradient(700px 380px at 90% -20%,rgba(14,131,136,.09),transparent 60%),var(--bg);
+  border-bottom:1px solid var(--line);position:relative}
+.page-hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:56px 56px;opacity:.4;mask-image:radial-gradient(ellipse 80% 90% at 60% 0%,black 20%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse 80% 90% at 60% 0%,black 20%,transparent 70%);pointer-events:none}
+.page-hero .wrap{position:relative}
+.page-hero h1{font-size:clamp(2.1rem,4.4vw,3rem);font-weight:700;letter-spacing:-.024em;margin:18px 0 14px;max-width:20ch}
+.page-hero .lede{max-width:66ch}
+.crumb{font-family:var(--font-m);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.crumb b{color:var(--teal);font-weight:600}
+
+/* ---------- footer ---------- */
+footer{background:var(--navy);color:#8FA6B8;margin-top:88px;position:relative}
+.footer-trace{height:54px;overflow:hidden;opacity:.45}
+.footer-trace svg{width:100%;height:100%}
+.footer-trace path{stroke:#3FE29B;stroke-width:1.5;fill:none;stroke-linecap:round}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:44px;padding:26px 0 54px}
+footer .brand{color:#fff}
+footer .brand-mark{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
+.footer-about{font-size:.88rem;line-height:1.7;margin-top:16px;max-width:34ch}
+.f-col h4{color:#fff;font-size:.82rem;font-family:var(--font-m);font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+.f-col a{display:block;font-size:.9rem;padding:5px 0;color:#8FA6B8;transition:color .15s}
+.f-col a:hover{color:#3FE29B}
+.news-form{display:flex;gap:8px;margin-top:14px}
+.news-form input{flex:1;padding:11px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;font-family:inherit;font-size:.88rem;outline:none}
+.news-form input::placeholder{color:#6D8499}
+.news-form input:focus{border-color:var(--emerald)}
+.news-ok{display:none;margin-top:10px;font-size:.82rem;color:#3FE29B}
+.news-ok.show{display:block}
+.footer-legal{border-top:1px solid rgba(255,255,255,.08);padding:22px 0;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.78rem;color:#6D8499}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}.reveal.d5{transition-delay:.4s}
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .panel-trace .trace-draw{animation:none;stroke-dashoffset:0}
+  .pill.live .dot,.panel-title .dot{animation:none}
+  html{scroll-behavior:auto}
+}
+
+/* ---------- hero ridgeline trace ---------- */
+.hero-stack{display:flex;flex-direction:column;gap:16px}
+.panel-trace{height:96px;border:1px solid var(--line);border-radius:var(--r-sm);position:relative;overflow:hidden;margin-bottom:16px;background:
+  radial-gradient(300px 120px at 70% 20%,rgba(15,163,107,.06),transparent 65%),
+  linear-gradient(var(--slate-soft) 1px,transparent 1px),linear-gradient(90deg,var(--slate-soft) 1px,transparent 1px);
+  background-size:auto,16px 16px,16px 16px}
+.panel-trace svg{position:absolute;inset:0;width:100%;height:100%}
+.panel-trace .trace-base{stroke:rgba(14,131,136,.22);stroke-width:1.6;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.panel-trace .trace-draw{stroke:var(--emerald);stroke-width:2;fill:none;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:1000;stroke-dashoffset:1000;animation:drawridge 2.6s cubic-bezier(.4,0,.2,1) .5s forwards;filter:drop-shadow(0 0 4px rgba(15,163,107,.4))}
+@keyframes drawridge{to{stroke-dashoffset:0}}
+/* ---------- responsive ---------- */
+@media (max-width:1020px){
+  .hero-grid{grid-template-columns:1fr;gap:44px}
+  .grid-3{grid-template-columns:repeat(2,1fr)}
+  .ledger-grid{grid-template-columns:repeat(2,1fr)}
+  .ledger-cell{border-right:none;border-bottom:1px solid var(--line)}
+  .ledger-cell:nth-child(odd){border-right:1px solid var(--line)}
+  .ledger-cell:last-child{border-bottom:none}
+  .split{grid-template-columns:1fr;gap:40px}
+  .split .sticky-col{position:static}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  .menu-btn{display:grid}
+  .nav-cta .btn{display:none}
+}
+@media (max-width:720px){
+  .wrap{padding:0 20px}
+  .hero-brand{gap:13px;margin-bottom:22px}
+  .hero-brand-mark{width:46px;height:46px;border-radius:12px}
+  .hero-brand-mark svg{width:28px;height:28px}
+  .brand-word{font-size:.92rem;letter-spacing:.22em}
+  .nav-inner{padding:0 20px}
+  section{padding:64px 0}
+  .hero{padding:128px 0 64px}
+  .grid-3,.grid-2{grid-template-columns:1fr}
+  .ledger-grid{grid-template-columns:1fr}
+  .ledger-cell{border-right:none;border-bottom:1px solid var(--line)}
+  .ledger-cell:last-child{border-bottom:none}
+  .form-row{grid-template-columns:1fr}
+  .detail-row{grid-template-columns:1fr;gap:6px}
+  .cta-band{padding:44px 26px}
+  .footer-grid{grid-template-columns:1fr;gap:32px}
+  .amounts{grid-template-columns:repeat(3,1fr)}
+  .hero-ctas .btn{flex:1;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+  <div class="announce"><span class="mono">PRE-LAUNCH</span> &nbsp;·&nbsp; Ascent is being built in public. <b>Nothing on this site is inflated — our counters start at zero.</b></div>
+  <div class="nav-inner">
+    <a href="#/" class="brand" data-nav>
+      <span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="peak-back" d="M13.6 10.2 L17.1 5.6 L22 13.4"/><path class="peak-front" d="M2 18.2 L8.8 6.4 L12.4 12.3 L15 8.2 L21.6 18.2"/><circle class="peak-star" cx="8.8" cy="4" r="1"/></svg></span>
+      <span class="brand-word">ASCENT</span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#/about" data-nav data-route="/about">About</a>
+      <a href="#/initiatives" data-nav data-route="/initiatives">Initiatives</a>
+      <a href="#/biomedical-engineering" data-nav data-route="/biomedical-engineering">Biomedical Engineering</a>
+      <a href="#/get-involved" data-nav data-route="/get-involved">Get Involved</a>
+      <a href="#/contact" data-nav data-route="/contact">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#/donate" class="btn btn-primary btn-sm" data-nav>Support the launch</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">
+        <svg class="i-bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg class="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#/" data-nav>Home</a>
+  <a href="#/about" data-nav>About</a>
+  <a href="#/initiatives" data-nav>Initiatives</a>
+  <a href="#/biomedical-engineering" data-nav>Biomedical Engineering</a>
+  <a href="#/get-involved" data-nav>Get Involved</a>
+  <a href="#/contact" data-nav>Contact</a>
+  <a href="#/donate" class="btn btn-primary" data-nav>Support the launch</a>
+</div>
+
+<main id="app">
+
+<!-- ================= HOME ================= -->
+<div class="page" data-page="home">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="hero-brand">
+          <span class="hero-brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="peak-back" d="M13.6 10.2 L17.1 5.6 L22 13.4"/><path class="peak-front" d="M2 18.2 L8.8 6.4 L12.4 12.3 L15 8.2 L21.6 18.2"/><circle class="peak-star" cx="8.8" cy="4" r="1"/></svg></span>
+          <span class="hero-brand-word">ASCENT</span>
+        </div>
+        <span class="pill live"><span class="dot"></span>Student-founded · Building in public</span>
+        <h1 class="h-xl">Engineering a <span class="grad-text">healthier</span> future.</h1>
+        <p class="lede">Ascent is a new nonprofit initiative founded by high school students. Our goal: expand access to biomedical engineering education, help fund medical equipment for under-resourced clinics, and prove that young people can run a transparent, rigorous organization from day one.</p>
+        <div class="hero-ctas">
+          <a href="#/get-involved" class="btn btn-primary" data-nav>Join the founding effort <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a href="#/about" class="btn btn-secondary" data-nav>Read our plan</a>
+        </div>
+        <div class="hero-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Every number on this site is real — which is why most of them are currently zero.</div>
+        <div class="hero-chips">
+          <span class="tag">bme.education</span>
+          <span class="tag">equipment.funding</span>
+          <span class="tag">radical.transparency</span>
+        </div>
+      </div>
+      <div class="hero-stack reveal">
+        <div class="panel compact">
+          <div class="panel-head">
+            <span class="panel-title"><span class="dot"></span>Ascent · Live status</span>
+            <span class="tag">v0.1 — founding</span>
+          </div>
+          <div class="panel-body">
+            <div class="panel-trace">
+              <svg preserveAspectRatio="none" viewBox="0 0 600 64"><path class="trace-base ecg-line" d=""/><path class="trace-draw ecg-line" pathLength="1000" d=""/></svg>
+            </div>
+            <div class="panel-rows">
+              <div class="panel-row"><span class="k">Organization status</span><span class="v"><span class="pill plan"><span class="dot"></span>Registration in progress</span></span></div>
+              <div class="panel-row"><span class="k">Funds raised to date</span><span class="v" data-stat="fundsShort">$0</span></div>
+              <div class="panel-row"><span class="k">First campaign</span><span class="v"><span class="pill idea"><span class="dot"></span>In design</span></span></div>
+              <div class="panel-row"><span class="k">Founding team</span><span class="v">Recruiting now</span></div>
+            </div>
+          </div>
+          <div class="panel-foot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5"/></svg>This panel updates as milestones are hit — it is not decorative.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ZERO LEDGER -->
+  <section class="tight">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Starting from zero</span>
+        <h2 class="h-lg">Counted in public, from day one.</h2>
+        <p>We haven't launched yet, so we refuse to decorate this page with impressive-sounding numbers. These counters are real, they start at zero, and they will only ever move when something actually happens.</p>
+      </div>
+      <div class="ledger reveal">
+        <div class="ledger-head">
+          <span class="panel-title"><span class="dot"></span>Impact ledger</span>
+          <span class="small">Last updated: <span data-stat="updated">at launch of this site</span></span>
+        </div>
+        <div class="ledger-grid">
+          <div class="ledger-cell"><div class="num" data-stat="funds">$<em>0</em></div><div class="lbl">Funds raised</div><div class="sub">No donations have been collected. Giving opens with our first registered campaign.</div></div>
+          <div class="ledger-cell"><div class="num" data-stat="communities"><em>N/A</em></div><div class="lbl">Communities served</div><div class="sub">Partner selection begins after our first campaign is funded and verified.</div></div>
+          <div class="ledger-cell"><div class="num" data-stat="students"><em>N/A</em></div><div class="lbl">Students reached through outreach</div><div class="sub">Our BME learning resources are in development — see the education page.</div></div>
+          <div class="ledger-cell"><div class="num" data-stat="hospitals"><em>N/A</em></div><div class="lbl">Partner hospitals in evaluation</div><div class="sub">Outreach to clinics and hospitals starts once our nonprofit status is finalized.</div></div>
+          <div class="ledger-cell"><div class="num" data-stat="hours"><em>N/A</em></div><div class="lbl">Volunteer hours contributed</div><div class="sub">Tracking starts with our first organized volunteer program.</div></div>
+        </div>
+        <div class="ledger-foot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V6l-8-3-8 3v6c0 6 8 10 8 10z"/></svg><span>Our commitment: when these numbers change, each update will link to receipts, partner confirmations, or program records. If we can't document it, we won't count it.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILLARS -->
+  <section class="sec-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>What we're building</span>
+        <h2 class="h-lg">Three programs, one mission.</h2>
+        <p>Ascent operates at the intersection of engineering and medicine. Each program below is in a different stage of development — the status pills are honest, and each links to a full breakdown.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card reveal">
+          <div class="card-top">
+            <div class="icon-chip green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12.6L12 20l-7.5-7.4A5 5 0 1112 6.1a5 5 0 117.5 6.5z"/></svg></div>
+            <span class="pill idea"><span class="dot"></span>In design</span>
+          </div>
+          <h3>Healthcare Access Fund</h3>
+          <p>Structured fundraising campaigns that channel donations toward specific, verified medical equipment needs at under-resourced clinics — never a vague "general fund."</p>
+          <ul class="mini-list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>One campaign, one named goal, one budget</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Equipment needs verified with the receiving clinic</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Line-item public reporting after delivery</li>
+          </ul>
+        </div>
+        <div class="card reveal d1">
+          <div class="card-top">
+            <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg></div>
+            <span class="pill live"><span class="dot"></span>In development</span>
+          </div>
+          <h3>BME Education</h3>
+          <p>Free, beginner-friendly learning material that demystifies biomedical engineering for students who don't have access to specialized STEM programs.</p>
+          <ul class="mini-list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Written by students, reviewed before publishing</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Three levels: curious → committed → building</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>First modules drafted — see the BME page</li>
+          </ul>
+        </div>
+        <div class="card reveal d2">
+          <div class="card-top">
+            <div class="icon-chip navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 4 5.6 4 9s-1.5 6.4-4 9c-2.5-2.6-4-5.6-4-9s1.5-6.4 4-9z"/></svg></div>
+            <span class="pill idea"><span class="dot"></span>Planned</span>
+          </div>
+          <h3>Partnership Network</h3>
+          <p>Relationships with clinics, hospitals, university labs, and other student organizations — so our funding decisions are guided by people who actually work in care delivery.</p>
+          <ul class="mini-list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Clinics identify their own equipment priorities</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>University mentors review our technical claims</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Outreach begins post-registration</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPERATING MODEL -->
+  <section>
+    <div class="wrap split">
+      <div class="sticky-col">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Operating model</span>
+        <h2 class="h-lg">How a Ascent campaign will actually work.</h2>
+        <p class="lede">Most donation pages ask for money first and explain later. We're publishing our full operating procedure before we ask anyone for a dollar — so you can judge the process, not just the pitch.</p>
+        <a href="#/initiatives" class="link-arrow" data-nav>See the first campaign taking shape <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="steps reveal">
+        <div class="step"><span class="step-node">1</span><h4>Identify a verified need <span class="tag">2–4 weeks</span></h4><p>A partner clinic tells us what equipment they lack. We confirm the need directly with clinic staff, in writing, and document why it matters for patient care.</p>
+          <ul class="sub-points"><li>Written confirmation from the receiving facility</li><li>Quotes from at least two equipment suppliers</li></ul>
+        </div>
+        <div class="step"><span class="step-node">2</span><h4>Publish the campaign <span class="tag">before fundraising</span></h4><p>The full budget goes public first: equipment cost, shipping, logistics, and our capped overhead — every line visible before the donate button turns on.</p>
+          <ul class="sub-points"><li>A single fixed goal — campaigns don't quietly expand</li><li>Allocation percentages locked at publication</li></ul>
+        </div>
+        <div class="step"><span class="step-node">3</span><h4>Raise in public <span class="tag">live tracker</span></h4><p>The progress tracker on this site reflects actual received funds, not pledges. If a campaign stalls, we say so and explain the plan.</p></div>
+        <div class="step"><span class="step-node">4</span><h4>Purchase and deliver <span class="tag">documented</span></h4><p>We buy directly from suppliers — funds are never handed off as unrestricted cash. Delivery is confirmed by the clinic and photographed where the partner permits.</p></div>
+        <div class="step"><span class="step-node">5</span><h4>Report back, line by line <span class="tag">within 30 days</span></h4><p>Every campaign closes with a public report: receipts, final costs versus estimates, what went wrong, and what we'd change. Boring reports are the point.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="sec-soft" id="roadmap">
+    <div class="wrap">
+      <div class="section-head center">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Public roadmap</span>
+        <h2 class="h-lg">Where we are, honestly.</h2>
+        <p>Dates are targets, not promises — if one slips, we'll update this page and say why rather than quietly moving the goalposts.</p>
+      </div>
+      <div class="timeline">
+        <div class="t-item reveal"><span class="t-node"><svg viewBox="0 0 60 24"><path class="blip-path" d=""/></svg></span>
+          <div class="t-date">2025 — 2026 <span class="pill live"><span class="dot"></span>In progress</span></div>
+          <h3>Foundation & registration</h3>
+          <p>Founding team assembled from student volunteers, governance rules drafted, and formal nonprofit registration underway. No fundraising happens before this completes.</p>
+          <ul class="sub-points"><li>Mission, bylaws, and transparency policy written</li><li>This website launched as our public ledger</li></ul>
+        </div>
+        <div class="t-item reveal"><span class="t-node"><svg viewBox="0 0 60 24"><path class="blip-path" d=""/></svg></span>
+          <div class="t-date">Target: 2026 <span class="pill idea"><span class="dot"></span>In design</span></div>
+          <h3>First campaign</h3>
+          <p>A single, tightly-scoped equipment campaign with a partner clinic — small enough to execute flawlessly, documented enough to set the template for everything after.</p>
+        </div>
+        <div class="t-item reveal"><span class="t-node"><svg viewBox="0 0 60 24"><path class="blip-path" d=""/></svg></span>
+          <div class="t-date">Target: 2026 – 2027 <span class="pill idea"><span class="dot"></span>Planned</span></div>
+          <h3>Education launch</h3>
+          <p>Publication of our first free BME learning track, plus workshops at schools that lack engineering electives.</p>
+        </div>
+        <div class="t-item reveal"><span class="t-node"><svg viewBox="0 0 60 24"><path class="blip-path" d=""/></svg></span>
+          <div class="t-date">Target: 2027 <span class="pill idea"><span class="dot"></span>Planned</span></div>
+          <h3>Hospital & university partnerships</h3>
+          <p>Formal relationships with hospitals and university BME departments — advisors who can pressure-test our equipment choices and mentor student members.</p>
+        </div>
+        <div class="t-item reveal"><span class="t-node"><svg viewBox="0 0 60 24"><path class="blip-path" d=""/></svg></span>
+          <div class="t-date">Target: 2028 <span class="pill idea"><span class="dot"></span>Ambition</span></div>
+          <h3>Student chapters</h3>
+          <p>A chapter model so students at other schools can run Ascent campaigns locally under shared transparency rules. This one is an ambition, not a plan — yet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="wrap">
+      <div class="section-head center">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Fair questions</span>
+        <h2 class="h-lg">Things you should ask a brand-new nonprofit.</h2>
+      </div>
+      <div class="faq">
+        <details class="reveal"><summary>You're high school students. Why should anyone trust you with money?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="faq-a"><p>Right now, you shouldn't — trust is earned, and we haven't earned it yet. That's why we aren't accepting donations before registration is complete, why every counter on this site starts at zero, and why our first campaign will be small and fully documented. Judge us on the first report, not this website.</p></div></details>
+        <details class="reveal"><summary>Are you a registered 501(c)(3)?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="faq-a"><p>Not yet. Formal nonprofit registration is in progress, and we will not collect donations until the appropriate legal structure is in place. When status is granted, we'll post the documentation here.</p></div></details>
+        <details class="reveal"><summary>Where would my money actually go?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="faq-a"><p>Each campaign publishes its allocation before fundraising opens — our first campaign's draft budget targets the large majority of funds to equipment purchase, with the remainder for shipping/logistics and a small capped reserve. Ascent is volunteer-run: no salaries, no paid staff.</p></div></details>
+        <details class="reveal"><summary>What happens if a campaign doesn't reach its goal?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="faq-a"><p>The policy we're adopting: funds either roll into the same clinic's next-priority need (with donor notification), or donors are offered the choice at checkout. What never happens is money silently disappearing into "operations."</p></div></details>
+        <details class="reveal"><summary>Why does this site keep saying "zero"?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="faq-a"><p>Because it's true. Plenty of new organizations pad their pages with borrowed statistics or vague "students impacted" claims. We think starting the ledger at zero — in public — is a better foundation than a flattering guess.</p></div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="tight">
+    <div class="wrap">
+      <div class="cta-band reveal">
+        <h2 class="h-lg">Be part of the "before" picture.</h2>
+        <p>Founding volunteers, student writers, advisors, and future partners — the people who join now shape what Ascent becomes. Donations open later; the work starts today.</p>
+        <a href="#/get-involved" class="btn btn-primary" data-nav>See founding roles <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <div class="cta-trace"><svg preserveAspectRatio="none" viewBox="0 0 1200 60"><path class="ecg-wide" d=""/></svg></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= ABOUT ================= -->
+<div class="page" data-page="about" hidden>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumb">Ascent <b>/ About</b></div>
+      <span class="eyebrow" style="margin-top:14px"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Who we are</span>
+      <h1>A nonprofit young enough to do everything right the first time.</h1>
+      <p class="lede">Ascent was founded in 2025 by high school students who kept running into the same two problems: biomedical engineering felt locked behind expensive programs, and the clinics that most needed medical technology had the least access to it. We decided the honest response wasn't a fundraiser — it was an organization.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap split">
+      <div class="sticky-col">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>The story</span>
+        <h2 class="h-lg">Why students, why now.</h2>
+        <p class="lede">Biomedical engineering is where an idea becomes an infusion pump, a prosthetic, a diagnostic test. It's one of the most consequential fields a student can enter — and one of the least accessible. Most high schools offer no path into it. Most under-resourced clinics can't afford its products.</p>
+        <p class="lede">Ascent exists to work on both ends of that gap at once: teach the field to students who'd never otherwise meet it, and fund the equipment for communities the market skips. We are at the very beginning — and we'd rather show you a small, real thing than a big, imaginary one.</p>
+      </div>
+      <div>
+        <div class="detail-list reveal">
+          <div class="detail-row"><div class="dk">Founded</div><div class="dv">2025, by a team of high school students.</div></div>
+          <div class="detail-row"><div class="dk">Legal status</div><div class="dv"><span class="tag">in progress</span>Formal nonprofit registration underway. No donations accepted until complete.</div></div>
+          <div class="detail-row"><div class="dk">Staffing</div><div class="dv">100% volunteer. No salaries, no paid positions, no plans for any.</div></div>
+          <div class="detail-row"><div class="dk">Funding model</div><div class="dv">Campaign-based. Each campaign has one named goal, a fixed budget published in advance, and a closing report.</div></div>
+          <div class="detail-row"><div class="dk">What we won't do</div><div class="dv">Invent impact numbers, run a vague "general fund," hand off cash without documentation, or claim partnerships we don't have.</div></div>
+          <div class="detail-row"><div class="dk">Accountability</div><div class="dv">This website doubles as our public ledger — statuses, budgets, and reports live here for anyone to check.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Mission & vision</span>
+        <h2 class="h-lg">The two sentences everything else answers to.</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card reveal">
+          <div class="icon-chip green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></svg></div>
+          <h3>Mission</h3>
+          <p>To expand access to biomedical engineering education and healthcare technology for underserved communities — through transparent, student-led programs that document every dollar and every claim.</p>
+        </div>
+        <div class="card reveal d1">
+          <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h3>Vision</h3>
+          <p>A world where the next generation of biomedical engineers comes from everywhere — and where no clinic's standard of care is limited by its zip code.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Core values</span>
+        <h2 class="h-lg">Six rules we've written down so you can hold us to them.</h2>
+      </div>
+      <div class="grid-3">
+        <div class="card reveal"><span class="value-num">01</span><h3>Transparency by default</h3><p>Budgets before fundraising, receipts after. If a document can be public, it is public. Our zero-filled impact ledger is this value in practice.</p></div>
+        <div class="card reveal d1"><span class="value-num">02</span><h3>Rigor over hype</h3><p>Technical claims get reviewed before we publish them. Equipment choices follow clinic needs and supplier quotes, not what photographs well.</p></div>
+        <div class="card reveal d2"><span class="value-num">03</span><h3>Empathy in practice</h3><p>Partner clinics define their own priorities. We fund what they say they need — we don't parachute in with what we assume they need.</p></div>
+        <div class="card reveal"><span class="value-num">04</span><h3>Curiosity, taught</h3><p>Every program should leave a student knowing more than they did — including our own members, who learn governance, budgeting, and engineering by doing it.</p></div>
+        <div class="card reveal d1"><span class="value-num">05</span><h3>Partnership, not charity</h3><p>We build relationships that outlast a single donation. A campaign is the start of an obligation, not the end of one.</p></div>
+        <div class="card reveal d2"><span class="value-num">06</span><h3>Built to outlast us</h3><p>The founders will graduate. The procedures, documentation, and chapter model are designed so Ascent doesn't depend on any one of us.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-soft">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Founding team</span>
+        <h2 class="h-lg">Roles, not celebrities.</h2>
+        <p>We're keeping this page role-based until our registration is complete and members consent to being named publicly. Several roles are still open — if one looks like you, see <a href="#/get-involved" data-nav style="color:var(--teal);font-weight:600">Get Involved</a>.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card team-card reveal"><div class="avatar">ED</div><h3>Executive Director</h3><div class="role">Filled · Founder</div><p>Sets strategy, owns the roadmap, and is accountable for every claim on this site.</p></div>
+        <div class="card team-card reveal d1"><div class="avatar">OP</div><h3>Operations Lead</h3><div class="role">Filled · Founder</div><p>Runs registration paperwork, budgets, and the documentation pipeline behind campaigns.</p></div>
+        <div class="card team-card reveal d2"><div class="avatar">ED2</div><h3>Education Lead</h3><div class="role">Open</div><p>Owns the BME learning track: curriculum outline, writer recruitment, and review standards.</p></div>
+        <div class="card team-card reveal"><div class="avatar">PR</div><h3>Partnerships Lead</h3><div class="role">Open</div><p>Builds relationships with clinics, hospitals, and university mentors once registration completes.</p></div>
+        <div class="card team-card reveal d1"><div class="avatar">CM</div><h3>Communications Lead</h3><div class="role">Open</div><p>Writes campaign reports and updates — clarity and honesty over polish.</p></div>
+        <div class="card team-card reveal d2"><div class="avatar">TA</div><h3>Technical Advisors</h3><div class="role">Recruiting</div><p>University students and professionals in BME/medicine who review our technical and equipment claims.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap bigquote reveal">
+      <blockquote>"We can't show you impact yet. We can show you <span class="grad-text">exactly how we'll measure it</span> — and that's the part most organizations skip."</blockquote>
+      <cite>— The Ascent founding team</cite>
+    </div>
+  </section>
+</div>
+
+<!-- ================= INITIATIVES ================= -->
+<div class="page" data-page="initiatives" hidden>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumb">Ascent <b>/ Initiatives</b></div>
+      <span class="eyebrow" style="margin-top:14px"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Campaigns</span>
+      <h1>One campaign at a time, fully documented.</h1>
+      <p class="lede">Ascent doesn't run a dozen vague appeals. We run one campaign at a time, publish its complete budget before fundraising opens, and close it with a line-item report. Our first campaign is currently being designed — here's everything we can honestly show you today.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Campaign 001</span>
+        <h2 class="h-lg">First equipment campaign</h2>
+        <p class="lede">Our inaugural campaign will fund specific medical equipment for a single partner clinic. The clinic, equipment list, and final budget will be published here <em>before</em> a single dollar is requested. Until then, this tracker stays at zero — because that's where it is.</p>
+        <div class="detail-list reveal" style="margin-top:8px">
+          <div class="detail-row"><div class="dk">Status</div><div class="dv"><span class="tag">in design</span>Scoping needs with potential partners; blocked on completing nonprofit registration.</div></div>
+          <div class="detail-row"><div class="dk">Working goal</div><div class="dv">$50,000 — a draft target that will be finalized (and possibly reduced) once the equipment list is confirmed with the clinic.</div></div>
+          <div class="detail-row"><div class="dk">Timeline</div><div class="dv">Fundraising targeted to open in 2026, after registration. Dates will update here first.</div></div>
+          <div class="detail-row"><div class="dk">What could change</div><div class="dv">The goal amount, the equipment mix, and the timeline. What can't change: allocation percentages after publication, and the reporting requirement.</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="panel reveal">
+          <div class="panel-head"><span class="panel-title"><span class="dot"></span>Campaign 001 · Tracker</span><span class="pill idea"><span class="dot"></span>Not yet open</span></div>
+          <div class="panel-body">
+            <div class="meter-row"><span>Raised</span><b><span data-stat="campaignRaised">$0</span> <span style="color:var(--faint);font-weight:400">of <span data-stat="campaignGoal">$50,000</span> draft goal</span></b></div>
+            <div class="meter"><div class="meter-fill" data-fill="0"></div></div>
+            <div class="panel-rows" style="margin-top:16px">
+              <div class="panel-row"><span class="k">Donors</span><span class="v" data-stat="donors">0</span></div>
+              <div class="panel-row"><span class="k">Partner clinic</span><span class="v">Being selected</span></div>
+              <div class="panel-row"><span class="k">Equipment list</span><span class="v">Draft — unpublished</span></div>
+              <div class="panel-row"><span class="k">Budget publication</span><span class="v">Before fundraising opens</span></div>
+            </div>
+            <div style="margin-top:18px;padding-top:18px;border-top:1px solid var(--line)">
+              <div class="small" style="font-weight:600;color:var(--ink);margin-bottom:12px">Draft allocation (locks at publication)</div>
+              <div class="alloc">
+                <div class="alloc-item"><div class="meter-row"><span>Medical equipment purchase</span><b>60%</b></div><div class="meter"><div class="meter-fill a1" data-fill="60"></div></div></div>
+                <div class="alloc-item"><div class="meter-row"><span>Education & outreach programs</span><b>25%</b></div><div class="meter"><div class="meter-fill a2" data-fill="25"></div></div></div>
+                <div class="alloc-item"><div class="meter-row"><span>Shipping & logistics</span><b>10%</b></div><div class="meter"><div class="meter-fill a3" data-fill="10"></div></div></div>
+                <div class="alloc-item"><div class="meter-row"><span>Contingency reserve (capped)</span><b>5%</b></div><div class="meter"><div class="meter-fill a4" data-fill="5"></div></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-foot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5"/></svg>Tracker reflects received funds only — never pledges.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Selection criteria</span>
+        <h2 class="h-lg">How we'll choose where funds go.</h2>
+        <p>Published now, before any money exists, so no one can accuse us of writing the rules to fit a favorite. A partner clinic must meet all four.</p>
+      </div>
+      <div class="grid-2">
+        <div class="card reveal"><div class="icon-chip green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-5"/><circle cx="12" cy="12" r="9"/></svg></div><h3>1 · Verified need</h3><p>The facility documents, in writing, what equipment it lacks and how the gap affects patient care. We confirm with staff directly — not through a middleman.</p></div>
+        <div class="card reveal d1"><div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18"/></svg></div><h3>2 · Underserved population</h3><p>Priority goes to facilities serving communities with limited healthcare access — measured by the facility's own patient data and public health indicators, not our impressions.</p></div>
+        <div class="card reveal d2"><div class="icon-chip navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10m6 10V4m6 16v-7"/></svg></div><h3>3 · Sustainable use</h3><p>The clinic must have (or gain, within the budget) staff trained to operate and maintain the equipment. Machines that gather dust help no one — this is a known failure mode of equipment donation, and we plan around it.</p></div>
+        <div class="card reveal d3"><div class="icon-chip green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V6l-8-3-8 3v6c0 6 8 10 8 10z"/></svg></div><h3>4 · Accountability agreement</h3><p>Partners agree to confirm delivery, report equipment status at set intervals, and allow us to publish outcomes — good or bad.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Reporting standard</span>
+        <h2 class="h-lg">What every closed campaign will publish.</h2>
+      </div>
+      <div class="table-wrap reveal">
+        <table class="table">
+          <thead><tr><th>Artifact</th><th>Contents</th><th class="mono-cell">Deadline</th></tr></thead>
+          <tbody>
+            <tr><td>Budget vs. actuals</td><td>Every line item's estimated and final cost, with variance explained in plain language.</td><td class="mono-cell">Close + 30 days</td></tr>
+            <tr><td>Receipts & invoices</td><td>Supplier invoices and payment records, redacted only for account security details.</td><td class="mono-cell">Close + 30 days</td></tr>
+            <tr><td>Delivery confirmation</td><td>Written confirmation from the receiving facility; photos where the partner permits.</td><td class="mono-cell">On delivery</td></tr>
+            <tr><td>Retrospective</td><td>What went wrong, what surprised us, and what changes in the next campaign. Published even when embarrassing.</td><td class="mono-cell">Close + 45 days</td></tr>
+            <tr><td>Follow-up check</td><td>Is the equipment in service? Partner-reported status at 6 and 12 months.</td><td class="mono-cell">+6 / +12 months</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-soft">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Later</span>
+        <h2 class="h-lg">Future campaign concepts.</h2>
+        <p>Ideas we're researching — labeled as concepts because that's what they are. None of these will start before Campaign 001 closes and reports.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card reveal"><span class="pill idea"><span class="dot"></span>Concept</span><h3>Diagnostic equipment fund</h3><p>Pooled campaigns for lower-cost, high-frequency items — pulse oximeters, blood pressure monitors, glucometers — where modest budgets change daily workflows.</p></div>
+        <div class="card reveal d1"><span class="pill idea"><span class="dot"></span>Concept</span><h3>Repair, not just replace</h3><p>Funding technician time and parts to bring existing broken equipment back into service — often the cheapest hour of impact in a clinic.</p></div>
+        <div class="card reveal d2"><span class="pill idea"><span class="dot"></span>Concept</span><h3>Student device challenge</h3><p>A mentored competition where student teams prototype assistive devices, with university reviewers and real user feedback.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= BIOMEDICAL ENGINEERING ================= -->
+<div class="page" data-page="biomedical-engineering" hidden>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumb">Ascent <b>/ Biomedical Engineering</b></div>
+      <span class="eyebrow" style="margin-top:14px"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>The field</span>
+      <h1>The engineering discipline that ships to hospitals.</h1>
+      <p class="lede">Biomedical engineering (BME) applies engineering methods to medicine and biology — it's how ideas become MRI machines, prosthetic limbs, dialysis systems, and rapid diagnostic tests. This page is our plain-language introduction to the field, plus the free learning track we're building.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Four frontiers</span>
+        <h2 class="h-lg">Where BME is moving.</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card reveal">
+          <div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/><circle cx="12" cy="11" r="3.2"/></svg></div>
+          <h3>Medical imaging</h3>
+          <p>MRI, CT, ultrasound, and newer portable imaging let clinicians see inside the body without cutting it open. A single reliable ultrasound unit can transform prenatal care at a rural clinic.</p>
+          <ul class="mini-list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Physics + signal processing + anatomy</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Trend: cheaper, portable, point-of-care devices</li>
+          </ul>
+        </div>
+        <div class="card reveal d1">
+          <div class="icon-chip green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="4.5"/></svg></div>
+          <h3>Biomaterials & tissue engineering</h3>
+          <p>Materials the body accepts: implants, sutures, scaffolds that host growing cells. The core question — how do you build something the immune system won't reject?</p>
+          <ul class="mini-list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Chemistry + biology + materials science</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Trend: 3D-printed scaffolds and implants</li>
+          </ul>
+        </div>
+        <div class="card reveal d2">
+          <div class="icon-chip navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h4l2-6 4 12 2-6h4"/></svg></div>
+          <h3>Medical devices & instrumentation</h3>
+          <p>Pacemakers, infusion pumps, ventilators, glucose monitors — electromechanical systems where a design flaw isn't a bug, it's a patient-safety event. This is why the field is so rigorous about testing.</p>
+          <ul class="mini-list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Electronics + mechanics + regulatory design</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Most relevant frontier to our equipment campaigns</li>
+          </ul>
+        </div>
+        <div class="card reveal d3">
+          <div class="icon-chip green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M17.5 14v7M14 17.5h7"/></svg></div>
+          <h3>Health data & computation</h3>
+          <p>Algorithms that flag abnormal heart rhythms, models that help read scans, hospital systems that track outcomes. Software is becoming a medical device in its own right — with the same safety stakes.</p>
+          <ul class="mini-list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Programming + statistics + medicine</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Lowest-cost entry point for students: a laptop</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-alt">
+    <div class="wrap split">
+      <div class="sticky-col">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Learning track</span>
+        <h2 class="h-lg">From curious to building — for free.</h2>
+        <p class="lede">We're writing a three-level learning track for students with no prior exposure to the field. Status is shown honestly per level; drafts are reviewed before anything is published as "ready."</p>
+        <a href="#/get-involved" class="link-arrow" data-nav>Help write or review it <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="steps reveal">
+        <div class="step"><span class="step-node">L1</span><h4>Curious <span class="pill live"><span class="dot"></span>Drafting now</span></h4><p>"What even is BME?" — short explainers on the field's branches, what biomedical engineers actually do all day, and how devices get from lab to clinic.</p>
+          <ul class="sub-points"><li>No math prerequisites</li><li>Reading time: minutes, not weekends</li></ul>
+        </div>
+        <div class="step"><span class="step-node">L2</span><h4>Committed <span class="pill idea"><span class="dot"></span>Outlined</span></h4><p>Course maps for high schoolers aiming at BME programs: which classes matter, how to evaluate university programs, and free online resources we've actually vetted.</p>
+          <ul class="sub-points"><li>Includes a guide to affordable/free lab alternatives</li><li>Reviewed by university BME students before publication</li></ul>
+        </div>
+        <div class="step"><span class="step-node">L3</span><h4>Building <span class="pill idea"><span class="dot"></span>Planned</span></h4><p>Hands-on starter projects — think heart-rate sensors on hobby microcontrollers and 3D-printed assistive device concepts — with strict safety boundaries: educational prototypes only, never clinical use.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Why it matters here</span>
+        <h2 class="h-lg">The access gap, in plain terms.</h2>
+      </div>
+      <div class="detail-list reveal">
+        <div class="detail-row"><div class="dk">The education gap</div><div class="dv">Most high schools offer no biomedical engineering exposure at all — students typically discover the field in university, which means students without engineering-heavy schools or families often never discover it. Our education program attacks this directly.</div></div>
+        <div class="detail-row"><div class="dk">The equipment gap</div><div class="dv">Under-resourced clinics — rural, urban, and international — routinely operate without functioning basic equipment, and donated machines frequently fall out of service when maintenance and training aren't part of the plan. That's why our selection criteria require a sustainability plan, not just a purchase.</div></div>
+        <div class="detail-row"><div class="dk">Why students can help</div><div class="dv">Not by doing surgery — by doing the unglamorous work: researching equipment options, documenting budgets, teaching fundamentals to younger students, and building the transparent processes adults often skip.</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= GET INVOLVED ================= -->
+<div class="page" data-page="get-involved" hidden>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumb">Ascent <b>/ Get Involved</b></div>
+      <span class="eyebrow" style="margin-top:14px"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Founding roles</span>
+      <h1>Join before the "About" page has photos.</h1>
+      <p class="lede">Ascent is at the stage where every new person changes what the organization becomes. Below are the roles we're actually recruiting for right now — each with honest expectations about time and what you'd really be doing.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="grid-3">
+        <div class="card reveal">
+          <div class="card-top"><div class="icon-chip green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 00-3-3.87"/></svg></div><span class="pill live"><span class="dot"></span>Open now</span></div>
+          <h3>Student volunteer</h3>
+          <p>The core of Ascent. Research equipment options, help draft learning modules, organize outreach at your school.</p>
+          <ul class="mini-list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>~2–4 hrs/week, remote-friendly</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>No experience required — training is the point</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Hours logged in the public ledger</li>
+          </ul>
+        </div>
+        <div class="card reveal d1">
+          <div class="card-top"><div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><span class="pill live"><span class="dot"></span>Open now</span></div>
+          <h3>Writer / editor</h3>
+          <p>Turn research into the clearest BME explainers on the internet. Every piece is fact-checked before publication — you'd learn the review process too.</p>
+          <ul class="mini-list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Flexible; per-article commitment</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Byline on published modules</li>
+          </ul>
+        </div>
+        <div class="card reveal d2">
+          <div class="card-top"><div class="icon-chip navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg></div><span class="pill live"><span class="dot"></span>Open now</span></div>
+          <h3>Technical advisor</h3>
+          <p>University BME students, engineers, clinicians: review our technical claims and equipment shortlists before they go public. Async, low-volume, high-leverage.</p>
+          <ul class="mini-list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>~1–2 hrs/month, fully remote</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Named (with consent) on reviewed material</li>
+          </ul>
+        </div>
+        <div class="card reveal">
+          <div class="card-top"><div class="icon-chip green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></div><span class="pill plan"><span class="dot"></span>After registration</span></div>
+          <h3>Clinic & hospital partners</h3>
+          <p>Facilities serving under-resourced communities: tell us your equipment priorities. You define the need; our campaigns fund it; your confirmation closes the loop.</p>
+          <ul class="mini-list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Formal outreach begins post-registration</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Early conversations welcome now</li>
+          </ul>
+        </div>
+        <div class="card reveal d1">
+          <div class="card-top"><div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><span class="pill plan"><span class="dot"></span>After registration</span></div>
+          <h3>Sponsors</h3>
+          <p>Businesses and organizations that want to back specific campaigns — with the same line-item reporting individual donors get. No logo-for-cash without substance.</p>
+        </div>
+        <div class="card reveal d2">
+          <div class="card-top"><div class="icon-chip navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 4 5.6 4 9s-1.5 6.4-4 9c-2.5-2.6-4-5.6-4-9s1.5-6.4 4-9z"/></svg></div><span class="pill idea"><span class="dot"></span>2028 ambition</span></div>
+          <h3>Chapter founders</h3>
+          <p>Eventually: students who run Ascent campaigns at their own schools under shared transparency rules. Register interest now and you'll shape the model.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="apply" class="sec-alt">
+    <div class="wrap split">
+      <div class="sticky-col">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Application</span>
+        <h2 class="h-lg">Apply to join Ascent.</h2>
+        <p class="lede">This is the real application — it goes straight to the founding team's inbox the moment you hit submit. We read every one and reply personally, usually within a few days.</p>
+        <ul class="mini-list" style="border-top:none;padding-top:0">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>No GPA cutoffs, no essays, no "competitive process"</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Students of any grade and adults (advisors) both welcome</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Tell us honestly what you want to work on — we match tasks to interest</li>
+        </ul>
+      </div>
+      <div>
+        <div class="panel reveal">
+          <div class="panel-head">
+            <span class="panel-title"><span class="dot"></span>application.form — join Ascent</span>
+            <span class="tag">direct to team inbox</span>
+          </div>
+          <div class="panel-body">
+            <form class="form" id="applyForm" novalidate>
+              <div class="field"><label for="apName">Full name *</label><input id="apName" type="text" autocomplete="name" required placeholder="Your name"></div>
+              <div class="form-row">
+                <div class="field"><label for="apEmail">Email *</label><input id="apEmail" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+                <div class="field"><label for="apPhone">Phone <span style="color:var(--faint);font-weight:500">(optional)</span></label><input id="apPhone" type="tel" autocomplete="tel" placeholder="(555) 555-5555"></div>
+              </div>
+              <div class="form-row">
+                <div class="field"><label for="apAge">Age *</label><input id="apAge" type="number" min="10" max="99" required placeholder="e.g. 16"></div>
+                <div class="field"><label for="apGrade">Grade / education *</label><input id="apGrade" type="text" required placeholder="e.g. 10th grade, college sophomore, RN"></div>
+              </div>
+              <div class="field"><label for="apWhy">Why do you want to join, and what do you want to do? *</label><textarea id="apWhy" required placeholder="A few honest sentences — what interests you about Ascent, and what kind of work you'd like to take on (writing, outreach, research, design, operations…)"></textarea></div>
+              <button class="btn btn-primary" id="applyBtn" type="submit" style="justify-content:center">Submit application <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+              <div class="form-ok" id="applyOk"></div>
+              <p class="small" style="margin-top:2px">Submissions are emailed directly to the Ascent team. Your info is used only to reply to you — it's never shared or published.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-soft">
+    <div class="wrap split">
+      <div class="sticky-col">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>How joining works</span>
+        <h2 class="h-lg">Three steps, no gatekeeping.</h2>
+        <p class="lede">We don't do competitive applications for volunteer roles — if you're willing to do real work reliably, there's a place for you.</p>
+        <button class="btn btn-primary" data-scrollto="apply" style="margin-top:6px" type="button">Start step one <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+      <div class="steps reveal">
+        <div class="step"><span class="step-node">1</span><h4>Submit the application</h4><p>Fill out the form above — name, contact, age and grade, and what you actually want to work on. It lands in our inbox instantly.</p></div>
+        <div class="step"><span class="step-node">2</span><h4>Intro call or chat</h4><p>A short conversation with a founding member about what you'd like to work on and what actually needs doing this month.</p></div>
+        <div class="step"><span class="step-node">3</span><h4>First task within a week</h4><p>You get a small, real task with a deadline — not a title and silence. If it's a fit, you take on more; if not, no hard feelings.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= DONATE ================= -->
+<div class="page" data-page="donate" hidden>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumb">Ascent <b>/ Support</b></div>
+      <span class="eyebrow" style="margin-top:14px"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Support the launch</span>
+      <h1>We're not taking your money yet. Here's the plan for when we do.</h1>
+      <p class="lede">Ascent will not accept donations until nonprofit registration is complete — collecting first and formalizing later is exactly the pattern we exist to reject. This page shows you how giving will work, lets you preview your impact, and lets you ask to be notified the day it opens.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Preview</span>
+        <h2 class="h-lg">What your gift will become.</h2>
+        <p class="lede">Try the calculator — amounts map to real budget lines from our draft Campaign 001 allocation. Estimates will be replaced with exact figures when the campaign budget is published.</p>
+        <div class="table-wrap reveal" style="margin-top:10px">
+          <table class="table">
+            <thead><tr><th>Gift</th><th>Draft-budget equivalent</th></tr></thead>
+            <tbody>
+              <tr><td class="mono-cell">$25</td><td>Consumable supplies — sensor pads, tubing, calibration materials that keep equipment usable.</td></tr>
+              <tr><td class="mono-cell">$100</td><td>A meaningful share of a basic diagnostic device such as a pulse oximeter or blood-pressure monitor.</td></tr>
+              <tr><td class="mono-cell">$500</td><td>Shipping and logistics for a full equipment delivery, or staff training time at the receiving clinic.</td></tr>
+              <tr><td class="mono-cell">$1,000+</td><td>A principal contribution toward a major device on the campaign's published equipment list.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div class="donate-card reveal">
+          <div class="meter-row"><span>Campaign 001</span><b><span data-stat="campaignRaised">$0</span> / <span data-stat="campaignGoal">$50,000</span></b></div>
+          <div class="meter" style="margin-bottom:20px"><div class="meter-fill" data-fill="0"></div></div>
+          <div class="freq-toggle" id="freqToggle">
+            <button class="active" data-freq="once">One-time</button>
+            <button data-freq="monthly">Monthly</button>
+          </div>
+          <div class="amounts" id="amounts">
+            <button data-amt="25">$25</button>
+            <button data-amt="50">$50</button>
+            <button class="active" data-amt="100">$100</button>
+            <button data-amt="250">$250</button>
+            <button data-amt="500">$500</button>
+            <button data-amt="1000">$1,000</button>
+          </div>
+          <div class="custom-amt"><span>$</span><input type="number" id="customAmt" min="1" placeholder="Custom amount"></div>
+          <div class="impact-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12.6L12 20l-7.5-7.4A5 5 0 1112 6.1a5 5 0 117.5 6.5z"/></svg><span id="impactText"></span></div>
+          <button class="btn btn-primary" id="notifyBtn" style="width:100%;justify-content:center">Notify me when giving opens</button>
+          <div class="donate-msg" id="donateMsg">Giving isn't open yet — no payment details are collected anywhere on this site. Tap the button above and your email app will open with a pre-written note to us; we'll reply the day donations go live.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-soft">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>The climb</span>
+        <h2 class="h-lg">Funds raised, over time.</h2>
+        <p>This chart is wired to the same public ledger as every counter on the site — when a donation arrives, the line climbs, the trackers fill, and the totals update together. It cannot show growth that didn't happen.</p>
+      </div>
+      <div class="panel reveal">
+        <div class="panel-head">
+          <span class="panel-title"><span class="dot"></span>growth.chart — Campaign 001</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="tag" id="chartTotalTag">$0 raised</span>
+            <button class="btn btn-secondary btn-sm" id="demoBtn" type="button">Preview growth (demo)</button>
+          </div>
+        </div>
+        <div class="panel-body" style="position:relative">
+          <div id="demoBadge" class="demo-badge" hidden>DEMO DATA — not real donations</div>
+          <div id="growthChart" class="growth-chart" role="img" aria-label="Line chart of cumulative funds raised over time"></div>
+          <div id="chartEmpty" class="chart-empty">
+            <b>The line starts when the first dollar arrives.</b>
+            <span>No donations have been received — the baseline sits honestly at $0. Tap "Preview growth" to see how the chart will behave once giving opens.</span>
+          </div>
+        </div>
+        <div class="panel-foot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5"/></svg>Chart reflects received funds only — pledges don't move the line.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Donor promises</span>
+        <h2 class="h-lg">Written before we've received a dollar.</h2>
+      </div>
+      <div class="grid-3">
+        <div class="card reveal"><div class="icon-chip green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V6l-8-3-8 3v6c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Every dollar traceable</h3><p>Your gift lands in a named campaign with a published budget. Closing reports show line-item actuals against that budget.</p></div>
+        <div class="card reveal d1"><div class="icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5"/></svg></div><h3>Reports on a clock</h3><p>Budget vs. actuals and receipts within 30 days of campaign close; a full retrospective within 45. Late reports get explained, not hidden.</p></div>
+        <div class="card reveal d2"><div class="icon-chip navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></div><h3>No dark patterns</h3><p>No pre-checked recurring boxes, no guilt pop-ups, no fake countdown timers. Monthly giving will always be one click to cancel.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= CONTACT ================= -->
+<div class="page" data-page="contact" hidden>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumb">Ascent <b>/ Contact</b></div>
+      <span class="eyebrow" style="margin-top:14px"><svg class="blip" viewBox="0 0 60 24"><path class="blip-path" d=""/></svg>Say hello</span>
+      <h1>Talk to a founding team, not a ticket queue.</h1>
+      <p class="lede">Volunteers, potential partners, advisors, skeptical parents, journalists — all welcome. The form below opens a pre-written email in your own mail app, so your message goes directly to us with nothing stored on this site.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap split">
+      <div>
+        <div class="detail-list reveal">
+          <div class="detail-row"><div class="dk">Email</div><div class="dv"><span class="mono" id="emailText">dyapa.aaryan@gmail.com</span> &nbsp;<button class="btn btn-secondary btn-sm" id="copyEmail">Copy</button><div class="small" style="margin-top:6px">Placeholder address — swap in your real inbox before publishing (instructions in the site file).</div></div></div>
+          <div class="detail-row"><div class="dk">Response time</div><div class="dv">We aim for 2–3 days. We're students; exam weeks are slower and we won't pretend otherwise.</div></div>
+          <div class="detail-row"><div class="dk">Volunteering</div><div class="dv">Pick the "Volunteering" topic and mention your school year + weekly availability. See <a href="#/get-involved" data-nav style="color:var(--teal);font-weight:600">Get Involved</a> for open roles.</div></div>
+          <div class="detail-row"><div class="dk">Clinics & hospitals</div><div class="dv">Choose "Partnership." Formal programs start post-registration, but early conversations shape our first campaign.</div></div>
+          <div class="detail-row"><div class="dk">Press & questions</div><div class="dv">Choose "Other." Hard questions about a brand-new nonprofit are fair — we'd rather answer them than dodge them.</div></div>
+        </div>
+      </div>
+      <div>
+        <form class="form reveal" id="contactForm">
+          <div class="form-row">
+            <div class="field"><label for="cName">Name</label><input id="cName" type="text" placeholder="Your name" required></div>
+            <div class="field"><label for="cTopic">Topic</label><select id="cTopic"><option>Volunteering</option><option>Partnership</option><option>Sponsorship</option><option>Donations</option><option>Other</option></select></div>
+          </div>
+          <div class="field"><label for="cMsg">Message</label><textarea id="cMsg" placeholder="What's on your mind?" required></textarea></div>
+          <button class="btn btn-primary" type="submit">Open email to send <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+          <div class="form-ok" id="contactOk">Your email app should have opened with your message ready to send. If it didn't, copy our address above and send it manually — same inbox, same humans.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="footer-trace"><svg preserveAspectRatio="none" viewBox="0 0 1400 54"><path class="ecg-wide" d=""/></svg></div>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="#/" class="brand" data-nav>
+          <span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="peak-back" d="M13.6 10.2 L17.1 5.6 L22 13.4"/><path class="peak-front" d="M2 18.2 L8.8 6.4 L12.4 12.3 L15 8.2 L21.6 18.2"/><circle class="peak-star" cx="8.8" cy="4" r="1"/></svg></span>
+          <span class="brand-word">ASCENT</span>
+        </a>
+        <p class="footer-about">A student-founded nonprofit initiative expanding access to biomedical engineering education and healthcare technology. Pre-launch, volunteer-run, counted in public.</p>
+      </div>
+      <div class="f-col">
+        <h4>Explore</h4>
+        <a href="#/about" data-nav>About</a>
+        <a href="#/initiatives" data-nav>Initiatives</a>
+        <a href="#/biomedical-engineering" data-nav>Biomedical engineering</a>
+        <a href="#/get-involved" data-nav>Get involved</a>
+      </div>
+      <div class="f-col">
+        <h4>Act</h4>
+        <a href="#/donate" data-nav>Support the launch</a>
+        <a href="#/contact" data-nav>Contact</a>
+        <a href="#roadmap" data-nav>Roadmap</a>
+      </div>
+      <div class="f-col">
+        <h4>Stay in the loop</h4>
+        <p style="font-size:.86rem;color:#8FA6B8;line-height:1.6">One email when donations open, one when the first campaign report publishes. That's it.</p>
+        <form class="news-form" id="newsForm">
+          <input type="email" id="newsEmail" placeholder="you@example.com" required>
+          <button class="btn btn-primary btn-sm" type="submit">Notify me</button>
+        </form>
+        <div class="news-ok" id="newsOk">Opening your email app — send it and you're on the list.</div>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <span>© 2026 Ascent. Student-led initiative — formal nonprofit registration in progress. Donations are not yet being accepted.</span>
+      <span class="mono" style="font-size:.72rem">engineering a healthier future</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================================
+   ★★★  EDIT YOUR SITE'S NUMBERS HERE — this is the only block you touch  ★★★
+   ----------------------------------------------------------------------------
+   HOW TO UPDATE YOUR STATS:
+   1. Open this file (the .html file you downloaded) in any text editor (Notepad, TextEdit, VS Code).
+   2. Press Ctrl+F (Cmd+F on Mac) and search for:  SITE_DATA
+   3. Change the values below. Rules:
+        - Use a plain number for real counts:        communitiesServed: 3,
+        - Use "N/A" (with quotes) if not started:    communitiesServed: "N/A",
+        - fundsRaised / campaignRaised are dollars:  fundsRaised: 1250,
+   4. Update "lastUpdated" so visitors know the numbers are fresh.
+   5. Save the file and refresh the page. Every stat across the whole site
+      (home ledger, hero panel, campaign trackers) updates automatically.
+   Your email (dyapa.aaryan@gmail.com) is set in CONFIG below — change it
+   there if it ever moves, and every button/form on the site follows.
+   ----------------------------------------------------------------------------
+   HOW TO TURN ON DIRECT-TO-INBOX APPLICATIONS (web3formsKey):
+   The application form on Get Involved sends straight to your Gmail through
+   Web3Forms — free, no account, works from any hosted site or local file.
+   ONE-TIME SETUP (2 minutes):
+   1. Go to  https://web3forms.com
+   2. Scroll to "Create your Access Key", type dyapa.aaryan@gmail.com,
+      click "Create Access Key".
+   3. Check your Gmail (and spam/promotions) for a message from Web3Forms
+      with a long access key — copy it.
+   4. Paste that key between the quotes below:  web3formsKey: "abc123...",
+   5. Save. Every application submitted anywhere on the site now lands in
+      your Gmail instantly, formatted with all fields.
+   Until the key is added, the form falls back to opening the visitor's
+   email app with the application pre-written to you.
+   ----------------------------------------------------------------------------
+   HOW TO TURN ON REAL CARD DONATIONS (donationLink):
+   A website file cannot process cards by itself — a payment company must do it
+   (that's what keeps card numbers safe and makes the money actually move).
+   Once your nonprofit registration and bank account exist:
+   1. Create a free donation page on a processor. Good options:
+        - Zeffy (zeffy.com)          -> 100% free for nonprofits
+        - Donorbox (donorbox.org)    -> popular, small % fee
+        - Stripe Payment Links       -> if an adult/entity has a Stripe account
+        - PayPal Donate button       -> quickest to set up
+      They give you a link like  https://www.zeffy.com/donation-form/xyz
+   2. Paste that link between the quotes below:  donationLink: "https://...",
+   3. Save + refresh. The Support page button instantly becomes a real,
+      secure "Donate" button that opens your payment page. Until then the
+      button honestly says giving isn't open yet.
+   ----------------------------------------------------------------------------
+   HOW TO UPDATE THE MONEY-GROWTH GRAPH (donationHistory):
+   After each donation (or each week), add ONE line with the date and the NEW
+   RUNNING TOTAL (not the individual gift). Example after three updates:
+     donationHistory: [
+       ["2026-03-01", 250],
+       ["2026-03-14", 1200],
+       ["2026-04-02", 4800],
+     ],
+   The graph on the Support page draws itself from this list, and the LAST
+   total automatically becomes fundsRaised + campaignRaised everywhere on the
+   site (ledger, trackers, progress bars) — one edit updates everything.
+   ========================================================================== */
+const SITE_DATA = {
+  fundsRaised:      0,        // total dollars raised, e.g. 1250
+  communitiesServed:"N/A",    // number or "N/A"
+  studentsReached:  "N/A",    // students reached through outreach
+  partnerHospitals: "N/A",    // partner hospitals in evaluation
+  volunteerHours:   "N/A",    // volunteer hours contributed
+  campaignGoal:     50000,    // Campaign 001 draft goal (dollars)
+  campaignRaised:   0,        // Campaign 001 dollars received
+  donors:           0,        // Campaign 001 donor count
+  lastUpdated:      "at launch of this site",  // e.g. "March 2027"
+  donationLink:     "",       // paste your Zeffy/Donorbox/Stripe/PayPal link here to open real giving
+  donationHistory:  [
+    // ["2026-03-01", 250],   <- uncomment + edit as money arrives (date, running total)
+  ]
+};
+const CONFIG = {
+  email: "dyapa.aaryan@gmail.com",   // ← every form/button on the site points here
+  web3formsKey: "0f0deba6-110f-4e18-ae7f-fcf508ae13b5"                   // ← paste your Web3Forms access key here (see setup below)
+};
+/* ================= end of editable block ================= */
+
+const $  = (s, c=document) => c.querySelector(s);
+const $$ = (s, c=document) => [...c.querySelectorAll(s)];
+const money = n => "$" + Number(n).toLocaleString("en-US");
+
+/* ---------- apply SITE_DATA to every bound element ---------- */
+function fmtStat(key, val){
+  const isNA = val === "N/A" || val === null || val === undefined;
+  const isZero = !isNA && Number(val) === 0;
+  const dollar = ["funds","campaignRaised","campaignGoal","fundsShort"].includes(key);
+  const text = isNA ? "N/A" : dollar ? money(val) : Number(val).toLocaleString("en-US");
+  return (isNA || isZero) ? `<em>${text}</em>` : text;
+}
+function applyData(){
+  /* if donationHistory has entries, its last running total drives every counter */
+  const histTotal = (SITE_DATA.donationHistory && SITE_DATA.donationHistory.length)
+    ? Number(SITE_DATA.donationHistory[SITE_DATA.donationHistory.length - 1][1]) || 0 : null;
+  if (histTotal !== null) { SITE_DATA.fundsRaised = histTotal; SITE_DATA.campaignRaised = histTotal; }
+  const map = {
+    funds: SITE_DATA.fundsRaised,
+    fundsShort: SITE_DATA.fundsRaised,
+    communities: SITE_DATA.communitiesServed,
+    students: SITE_DATA.studentsReached,
+    hospitals: SITE_DATA.partnerHospitals,
+    hours: SITE_DATA.volunteerHours,
+    campaignRaised: SITE_DATA.campaignRaised,
+    campaignGoal: SITE_DATA.campaignGoal,
+    donors: SITE_DATA.donors,
+    updated: SITE_DATA.lastUpdated
+  };
+  $$("[data-stat]").forEach(el => {
+    const key = el.dataset.stat;
+    if (!(key in map)) return;
+    if (key === "updated") { el.textContent = map[key]; return; }
+    if (el.classList.contains("num")) { el.innerHTML = fmtStat(key, map[key]); return; }
+    const v = map[key];
+    const dollar = ["campaignRaised","campaignGoal","fundsShort","funds"].includes(key);
+    el.textContent = (v === "N/A") ? "N/A" : dollar ? money(v) : Number(v).toLocaleString("en-US");
+  });
+  // campaign progress % (both trackers share data-fill="0" placeholders)
+  const pct = Math.max(0, Math.min(100, (SITE_DATA.campaignRaised / SITE_DATA.campaignGoal) * 100 || 0));
+  $$('.meter-fill:not(.a1):not(.a2):not(.a3):not(.a4)').forEach(el => el.dataset.fill = pct.toFixed(1));
+}
+
+/* ---------- ridgeline path generator (the Ascent motif) ---------- */
+function ridge(w, h, peaks, seed){
+  /* a jagged skyline that climbs left-to-right and ends on a summit */
+  const rnd = n => { const s = Math.sin((n + seed) * 91.7) * 47453.5; return s - Math.floor(s); };
+  const base = h * 0.86, top = h * 0.14;
+  let d = `M0 ${base.toFixed(1)}`;
+  const stepsN = peaks * 2;
+  for (let k = 1; k <= stepsN; k++){
+    const x = (w / stepsN) * k;
+    const climb = k / stepsN;                        /* overall ascent */
+    const isPeak = k % 2 === 1;
+    const jag = (rnd(k) - 0.5) * h * 0.22;
+    const y = isPeak
+      ? base - (base - top) * (0.35 + 0.65 * climb) + jag * 0.6
+      : base - (base - top) * (0.30 * climb) + jag;
+    d += ` L${x.toFixed(1)} ${Math.max(top, Math.min(base, y)).toFixed(1)}`;
+  }
+  return d;
+}
+$$(".blip-path").forEach((p, i) => p.setAttribute("d", ridge(60, 24, 3, 2 + i % 3)));
+$$(".ecg-line").forEach(p => p.setAttribute("d", ridge(600, 64, 9, 5)));
+$$(".ecg-wide").forEach(p => {
+  const vb = p.closest("svg").getAttribute("viewBox").split(" ");
+  p.setAttribute("d", ridge(+vb[2], +vb[3], 16, 8));
+});
+
+/* ---------- router ---------- */
+const pages = $$(".page");
+const titles = {
+  home: "Ascent — Engineering a Healthier Future",
+  about: "About — Ascent",
+  initiatives: "Initiatives — Ascent",
+  "biomedical-engineering": "Biomedical Engineering — Ascent",
+  "get-involved": "Get Involved — Ascent",
+  donate: "Support the Launch — Ascent",
+  contact: "Contact — Ascent"
+};
+function route(){
+  const hash = location.hash || "#/";
+  let name = "home", anchor = null;
+  if (hash.startsWith("#/")) {
+    name = hash.slice(2).split("?")[0] || "home";
+  } else {
+    anchor = hash.slice(1); // in-page anchor like #roadmap (lives on home)
+  }
+  if (!titles[name]) name = "home";
+  pages.forEach(p => p.hidden = p.dataset.page !== name);
+  document.title = titles[name];
+  $$(".nav-links a").forEach(a => a.classList.toggle("active", a.dataset.route === "/" + name));
+  closeMenu();
+  if (anchor) {
+    const el = document.getElementById(anchor);
+    if (el) { el.scrollIntoView({ behavior: "smooth" }); observeAll(); return; }
+  }
+  window.scrollTo(0, 0);
+  observeAll();
+}
+window.addEventListener("hashchange", route);
+
+/* ---------- nav ---------- */
+const nav = $("#nav"), menuBtn = $("#menuBtn"), mobileMenu = $("#mobileMenu");
+window.addEventListener("scroll", () => nav.classList.toggle("scrolled", scrollY > 8), { passive: true });
+menuBtn.addEventListener("click", () => {
+  const open = mobileMenu.classList.toggle("open");
+  nav.classList.toggle("menu-open", open);
+  menuBtn.setAttribute("aria-expanded", open);
+  document.body.style.overflow = open ? "hidden" : "";
+});
+function closeMenu(){
+  mobileMenu.classList.remove("open");
+  nav.classList.remove("menu-open");
+  menuBtn.setAttribute("aria-expanded", "false");
+  document.body.style.overflow = "";
+}
+
+/* ---------- reveal + meters ---------- */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+}), { threshold: .12 });
+const fillIo = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.style.width = e.target.dataset.fill + "%"; fillIo.unobserve(e.target); }
+}), { threshold: .4 });
+function observeAll(){
+  $$(".reveal:not(.in)").forEach(el => io.observe(el));
+  $$(".meter-fill").forEach(el => { el.style.width = "0%"; fillIo.observe(el); });
+}
+
+/* ---------- mailto helpers (buttons that really do something) ---------- */
+function openMail(subject, body){
+  location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+/* donate widget */
+let amt = 100, freq = "once";
+const impactMap = [
+  [50,  a => `${money(a)} covers consumable supplies — the pads, tubing, and calibration materials that keep clinic equipment usable.`],
+  [250, a => `${money(a)} funds a meaningful share of a basic diagnostic device, like a pulse oximeter or blood-pressure monitor.`],
+  [1000,a => `${money(a)} covers shipping, logistics, or staff training for a full equipment delivery.`],
+  [Infinity, a => `${money(a)} is a principal contribution toward a major device on the campaign's published equipment list.`]
+];
+function updateImpact(){
+  const line = impactMap.find(([cap]) => amt <= cap)[1](amt);
+  const el = $("#impactText");
+  if (el) el.textContent = (freq === "monthly" ? "Every month, " : "") + line + " (Draft-budget estimate.)";
+  if (typeof refreshDonateBtn === "function") refreshDonateBtn();
+}
+$("#freqToggle")?.addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  $$("#freqToggle button").forEach(x => x.classList.toggle("active", x === b));
+  freq = b.dataset.freq; updateImpact();
+});
+$("#amounts")?.addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  $$("#amounts button").forEach(x => x.classList.toggle("active", x === b));
+  amt = +b.dataset.amt; $("#customAmt").value = ""; updateImpact();
+});
+$("#customAmt")?.addEventListener("input", e => {
+  const v = +e.target.value;
+  if (v > 0) { amt = v; $$("#amounts button").forEach(x => x.classList.remove("active")); updateImpact(); }
+});
+const LIVE_GIVING = typeof SITE_DATA.donationLink === "string" && SITE_DATA.donationLink.startsWith("http");
+function refreshDonateBtn(){
+  const b = $("#notifyBtn"); if (!b) return;
+  b.textContent = LIVE_GIVING ? `Donate ${money(amt)} securely` : "Notify me when giving opens";
+}
+$("#notifyBtn")?.addEventListener("click", () => {
+  if (LIVE_GIVING){
+    /* opens the org's real payment page (Zeffy / Donorbox / Stripe / PayPal).
+       Card details are typed there, on the processor's secure site — never here. */
+    window.open(SITE_DATA.donationLink, "_blank", "noopener");
+    const m = $("#donateMsg");
+    m.textContent = "A secure payment page just opened in a new tab. Your card details go directly to the payment processor — this website never sees them.";
+    m.classList.add("show");
+    return;
+  }
+  $("#donateMsg").classList.add("show");
+  openMail("Notify me when Ascent giving opens",
+    `Hi Ascent team,\n\nPlease email me the day donations open. I'm interested in giving ${money(amt)} ${freq === "monthly" ? "monthly" : "one-time"} to Campaign 001.\n\n(Sent from the Support page.)`);
+});
+updateImpact();
+refreshDonateBtn();
+
+/* ---------- funds-growth chart (reads donationHistory) ---------- */
+const DEMO_HISTORY = [
+  ["Week 1", 150],["Week 2", 480],["Week 3", 1150],["Week 4", 1900],
+  ["Week 5", 3400],["Week 6", 5250],["Week 7", 8900],["Week 8", 12400]
+];
+let demoOn = false;
+function drawGrowth(){
+  const host = $("#growthChart"); if (!host) return;
+  const real = (SITE_DATA.donationHistory || []).map(r => [String(r[0]), Number(r[1]) || 0]);
+  const data = demoOn ? DEMO_HISTORY : real;
+  const empty = data.length === 0;
+  $("#chartEmpty").style.display = empty ? "flex" : "none";
+  $("#demoBadge").hidden = !demoOn;
+  const totalNow = demoOn ? DEMO_HISTORY[DEMO_HISTORY.length-1][1] : (real.length ? real[real.length-1][1] : SITE_DATA.campaignRaised);
+  $("#chartTotalTag").textContent = demoOn ? money(totalNow) + " (demo)" : money(totalNow) + " raised";
+
+  const W = 920, H = 300, padL = 64, padR = 26, padT = 30, padB = 40;
+  const iw = W - padL - padR, ih = H - padT - padB;
+  const pts = empty ? [["", 0], ["", 0]] : (data.length === 1 ? [["start", 0], data[0]] : data);
+  const maxV = Math.max(SITE_DATA.campaignGoal * 0.001, ...pts.map(p => p[1])) * 1.15 || 1;
+  const X = i => padL + (pts.length === 1 ? 0 : (i / (pts.length - 1)) * iw);
+  const Y = v => padT + ih - (v / maxV) * ih;
+
+  let grid = "", axis = "";
+  const rows = 4;
+  for (let r = 0; r <= rows; r++){
+    const v = (maxV / rows) * r, y = Y(v);
+    grid += `<line class="gc-grid" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"/>`;
+    axis += `<text class="gc-axis" x="${padL - 10}" y="${y + 3.5}" text-anchor="end">${v >= 1000 ? "$" + (v/1000).toFixed(v >= 10000 ? 0 : 1) + "k" : "$" + Math.round(v)}</text>`;
+  }
+  const step = Math.max(1, Math.ceil(pts.length / 7));
+  pts.forEach((p, i) => {
+    if (p[0] && (i % step === 0 || i === pts.length - 1))
+      axis += `<text class="gc-axis" x="${X(i)}" y="${H - padB + 20}" text-anchor="middle">${p[0]}</text>`;
+  });
+
+  const lineD = pts.map((p, i) => `${i ? "L" : "M"}${X(i).toFixed(1)} ${Y(p[1]).toFixed(1)}`).join(" ");
+  const areaD = `${lineD} L${X(pts.length - 1).toFixed(1)} ${Y(0)} L${X(0).toFixed(1)} ${Y(0)} Z`;
+  let dots = "";
+  if (!empty) pts.forEach((p, i) => {
+    dots += `<circle class="gc-dot${i === pts.length - 1 ? " last" : ""}" cx="${X(i).toFixed(1)}" cy="${Y(p[1]).toFixed(1)}" r="${i === pts.length - 1 ? 5 : 3.5}"/>`;
+  });
+  const last = pts[pts.length - 1];
+  const lbl = empty ? "" : `<text class="gc-label" x="${Math.min(X(pts.length-1), W - padR - 6).toFixed(1)}" y="${(Y(last[1]) - 12).toFixed(1)}" text-anchor="end">${money(last[1])}</text>`;
+
+  /* goal line, only when in range */
+  let goal = "";
+  if (SITE_DATA.campaignGoal <= maxV){
+    const gy = Y(SITE_DATA.campaignGoal);
+    goal = `<line class="gc-goal" x1="${padL}" y1="${gy}" x2="${W - padR}" y2="${gy}"/><text class="gc-goal-txt" x="${W - padR}" y="${gy - 6}" text-anchor="end">goal ${money(SITE_DATA.campaignGoal)}</text>`;
+  }
+
+  host.innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+    <defs><linearGradient id="gcFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0FA36B" stop-opacity=".22"/>
+      <stop offset="100%" stop-color="#0E8388" stop-opacity=".02"/>
+    </linearGradient></defs>
+    ${grid}${goal}
+    ${empty ? "" : `<path class="gc-area" d="${areaD}"/>`}
+    <path class="gc-line" d="${empty ? `M${padL} ${Y(0)} L${W - padR} ${Y(0)}` : lineD}"/>
+    ${dots}${lbl}${axis}
+  </svg>`;
+}
+$("#demoBtn")?.addEventListener("click", () => {
+  demoOn = !demoOn;
+  $("#demoBtn").textContent = demoOn ? "Exit demo" : "Preview growth (demo)";
+  drawGrowth();
+});
+drawGrowth();
+
+/* ---------- application form (Get Involved) ----------
+   Prefers Web3Forms when CONFIG.web3formsKey is set — sends the application
+   directly to CONFIG.email. If the key is missing or the network is unreachable,
+   falls back to opening the visitor's mail app with the application pre-written.
+   Either path, no submission is lost. */
+$("#applyForm")?.addEventListener("submit", async e => {
+  e.preventDefault();
+  const form = e.target;
+  if (!form.reportValidity()) return;
+  const val = id => $(id).value.trim();
+  const app = {
+    Name: val("#apName"),
+    Email: val("#apEmail"),
+    Phone: val("#apPhone") || "(not provided)",
+    Age: val("#apAge"),
+    "Grade / education": val("#apGrade"),
+    "Why & what they want to do": val("#apWhy")
+  };
+  const btn = $("#applyBtn"), ok = $("#applyOk");
+  btn.disabled = true; btn.textContent = "Sending…";
+
+  const useWeb3 = typeof CONFIG.web3formsKey === "string" && CONFIG.web3formsKey.length > 8;
+  const finishOk = msg => {
+    ok.textContent = msg; ok.classList.add("show");
+    form.reset(); btn.textContent = "Application sent \u2713";
+  };
+  const finishFallback = () => {
+    openMail("Ascent application \u2014 " + app.Name,
+      Object.entries(app).map(([k, v]) => k + ": " + v).join("\n") + "\n\n(Sent from the Get Involved page.)");
+    ok.textContent = "Direct-send isn't set up yet, so we opened your email app with your application pre-written \u2014 just hit send and it reaches us the same way.";
+    ok.classList.add("show");
+    btn.disabled = false; btn.textContent = "Submit application";
+  };
+
+  if (!useWeb3) { finishFallback(); return; }
+  try {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        access_key: CONFIG.web3formsKey,
+        subject: "New Ascent application \u2014 " + app.Name,
+        from_name: "Ascent website",
+        replyto: app.Email,
+        ...app
+      })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (data && data.success){
+      finishOk("Application sent! It just landed in the Ascent team's inbox \u2014 we'll reply to " + app.Email + " soon.");
+    } else {
+      finishFallback();
+    }
+  } catch (err){ finishFallback(); }
+});
+
+/* smooth-scroll buttons/* smooth-scroll buttons (e.g. "Start step one" -> application form) */
+$$("[data-scrollto]").forEach(b => b.addEventListener("click", () => {
+  const el = document.getElementById(b.dataset.scrollto);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}));
+
+/* contact form */
+$("#contactForm")?.addEventListener("submit", e => {
+  e.preventDefault();
+  const name = $("#cName").value.trim(), topic = $("#cTopic").value, msg = $("#cMsg").value.trim();
+  openMail(`[${topic}] Message from ${name || "the Ascent website"}`, `${msg}\n\n— ${name}`);
+  $("#contactOk").classList.add("show");
+});
+
+/* copy email button */
+$("#copyEmail")?.addEventListener("click", async () => {
+  const btn = $("#copyEmail");
+  try { await navigator.clipboard.writeText(CONFIG.email); btn.textContent = "Copied!"; }
+  catch { btn.textContent = CONFIG.email; }
+  setTimeout(() => btn.textContent = "Copy", 1800);
+});
+/* keep displayed email in sync with CONFIG */
+const emailEl = $("#emailText"); if (emailEl) emailEl.textContent = CONFIG.email;
+
+/* newsletter */
+$("#newsForm")?.addEventListener("submit", e => {
+  e.preventDefault();
+  openMail("Add me to the Ascent updates list",
+    `Hi Ascent team,\n\nPlease add ${$("#newsEmail").value} to the updates list (donations opening + first campaign report).\n`);
+  $("#newsOk").classList.add("show");
+});
+
+/* ---------- boot ---------- */
+applyData();
+route();
+</script>
+</body>
+</html>
